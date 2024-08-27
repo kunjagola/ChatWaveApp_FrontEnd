@@ -11,7 +11,6 @@ export class SignalRServiceService {
   constructor() {}
 
   public createConnection(): void {
-    debugger
     // If connection is already established or in progress, do not create a new one
     if (this.hubConnection && (this.hubConnection.state === HubConnectionState.Connecting ||
         this.hubConnection.state === HubConnectionState.Connected)) {
@@ -37,6 +36,34 @@ export class SignalRServiceService {
     this.hubConnection.onclose((error) => {
       console.log('SignalR connection closed', error);
     });
+  }
+
+  public async ensureConnection(): Promise<void> {
+    if (this.hubConnection) {
+      // Handle connection states
+      if (this.hubConnection.state === HubConnectionState.Connected) {
+        return;
+      } else if (this.hubConnection.state === HubConnectionState.Connecting) {
+        return new Promise((resolve, reject) => {
+          const checkConnection = () => {
+            if (this.hubConnection && this.hubConnection.state === HubConnectionState.Connected) {
+              resolve();
+            } else if (this.hubConnection && this.hubConnection.state === HubConnectionState.Disconnected) {
+              this.hubConnection.start()
+                .then(() => resolve())
+                .catch(err => reject(err));
+            } else {
+              setTimeout(checkConnection, 100);
+            }
+          };
+          checkConnection();
+        });
+      } else {
+        await this.hubConnection.start();
+      }
+    } else {
+      throw new Error('No hub connection available.');
+    }
   }
 
   public destroyConnection(): void {

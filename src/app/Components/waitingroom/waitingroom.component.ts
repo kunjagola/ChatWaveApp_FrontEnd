@@ -31,7 +31,7 @@ export class WaitingroomComponent {
       });
 
       try {
-        await this.waitForConnection();
+        await this.signalRService.ensureConnection(); // Ensure connection is established
         await this.signalRService.getConnection()?.invoke("joinSpecificChatRoom", { username, chatRoom });
         this.connectionLogs += 'Connection established and joined chat room.\n';
         this.router.navigate(['/chat-room'], {
@@ -43,18 +43,6 @@ export class WaitingroomComponent {
     } else {
       this.connectionLogs += 'SignalR connection not established.\n';
     }
-  }
-
-  private waitForConnection(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      if (this.signalRService.isConnected()) {
-        resolve();
-      } else {
-        this.signalRService.getConnection()?.start()
-          .then(() => resolve())
-          .catch(err => reject(err));
-      }
-    });
   }
 
   setMessages(newMessage: { username: string; msg: string }): void {
