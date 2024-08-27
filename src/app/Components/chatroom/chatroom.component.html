@@ -1,0 +1,35 @@
+<div class="chat-room-container">
+    <h1>Chat Room</h1>
+  
+    <!-- Display messages -->
+    <div *ngIf="messages.length > 0">
+      <ul class="message-list">
+        <li *ngFor="let message of messages">
+          <strong>{{ message.username }}:</strong> {{ message.msg }}
+        </li>
+      </ul>
+    </div>
+  
+    <!-- Form to send a new message -->
+    <form (ngSubmit)="sendMessage()" #messageForm="ngForm">
+      <div class="form-group">
+        <label for="newMessage">New Message:</label>
+        <input
+          type="text"
+          id="newMessage"
+          [(ngModel)]="newMessage"
+          name="newMessage"
+          required
+          #newMessageInput="ngModel"
+        />
+        <button type="submit" [disabled]="!messageForm.form.valid">Send</button>
+      </div>
+    </form>
+  
+    <!-- Display connection logs or status -->
+    <div class="logs">
+      <h2>Logs:</h2>
+      <pre>{{ connectionLogs }}</pre>
+    </div>
+  </div>
+  

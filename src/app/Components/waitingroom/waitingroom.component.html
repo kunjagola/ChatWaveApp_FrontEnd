@@ -1,0 +1,45 @@
+<div class="container">
+    <h1>{{ title }}</h1>
+  
+    <!-- Form to join a chat room -->
+    <form (ngSubmit)="joinChatRoom(username.value, chatRoom.value)" #chatForm="ngForm">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input
+          type="text"
+          id="username"
+          #username="ngModel"
+          ngModel
+          name="username"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="chatRoom">Chat Room:</label>
+        <input
+          type="text"
+          id="chatRoom"
+          #chatRoom="ngModel"
+          ngModel
+          name="chatRoom"
+          required
+        />
+      </div>
+      <button type="submit" [disabled]="!chatForm.form.valid">Join Chat Room</button>
+    </form>
+  
+    <!-- Display connection status -->
+    <div *ngIf="conn">
+      <p>Connected to chat room!</p>
+    </div>
+    <div *ngIf="!conn">
+      <p>Not connected to any chat room.</p>
+    </div>
+  
+    <!-- Display logs from the connection (optional) -->
+    <div class="logs">
+      <h2>Connection Logs:</h2>
+      <pre>{{ connectionLogs }}</pre>
+    </div>
+  </div>
+  

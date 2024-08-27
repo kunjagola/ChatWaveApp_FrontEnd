@@ -1,0 +1,38 @@
+.chat-room-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .message-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .message-list li {
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .form-group {
+    margin-top: 20px;
+  }
+  
+  form input {
+    width: calc(100% - 100px);
+    padding: 10px;
+  }
+  
+  form button {
+    padding: 10px 20px;
+  }
+  
+  .logs {
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+  }
+  
